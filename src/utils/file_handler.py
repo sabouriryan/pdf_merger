@@ -63,21 +63,8 @@ def validate_output_path(output_path):
                 os.makedirs(output_dir, exist_ok=True)
             except OSError:
                 return False, clean_path, f"Cannot create directory: {output_dir}"
-                
-        # Check if we can write to the file location without creating it
-        try:
-            # Check parent directory permissions instead of creating the file
-            parent_dir = os.path.dirname(os.path.abspath(clean_path))
-            if not os.access(parent_dir, os.W_OK):
-                return False, clean_path, f"Cannot write to directory: {parent_dir}"
             
-            # Try to create/write to the file
-            with open(clean_path, 'a'):
-                pass
-            
-            return True, clean_path, ""
-        except OSError:
-            return False, clean_path, f"Cannot write to: {clean_path}"
+        return True, clean_path, ""
             
     except Exception as e:
         return False, output_path, f"Invalid output path: {str(e)}"
